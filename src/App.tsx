@@ -1,3 +1,5 @@
+import Button from 'react-bootstrap/Button';
+
 import logo from './logo.svg';
 import './App.css';
 
@@ -17,6 +19,8 @@ function App() {
                 >
                     Learn React
                 </a>
+
+                <Button>Primary</Button>
             </header>
         </div>
     );
