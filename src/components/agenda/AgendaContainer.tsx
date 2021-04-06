@@ -1,62 +1,68 @@
-import dayjs, { Dayjs } from 'dayjs';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { Dayjs } from 'dayjs';
+import { ChangeEvent, useState } from 'react';
+import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-import { AgendaService } from '../../services/AgendaService';
-import { AgendaDisplayType } from './MonthSelector';
+import { TimeService } from '../../services/TimeService';
 
-import { MonthView } from './MonthView';
+import { EventContainer } from './events/EventContainer';
 
-enum IncludeWeekendsEnum {
-    YES = 'Yes',
-    NO = 'No'
-}
+import { AgendaDisplayType } from './month/MonthSelector';
+import { MonthView } from './month/MonthView';
 
 export function AgendaContainer() {
-    const [ currentDate, setCurrentDate ] = useState(dayjs());
-    
-    
-    useEffect(() => {
-        console.log(AgendaService.getEvents(currentDate));
-    }, [currentDate]);
-    
-    const handleDateChange = (isNext: boolean, type: AgendaDisplayType) => {
+    const today = TimeService.today;
+
+    const [ selectedDate, setSelectedDate ] = useState(today);
+    const handleSelectedDateChange = (newDate: Dayjs): void => {
+        setSelectedDate(newDate);
+    }
+
+    const [ displayedDate, setDisplayedDate ] = useState(today);
+    const handleDisplayDateChange = (isNext: boolean, type: AgendaDisplayType): void => {
         let newDate: Dayjs;
 
         if (type === AgendaDisplayType.MONTH) {
             if (isNext) {
-                newDate = currentDate.clone().add(1, 'month');
+                newDate = displayedDate.clone().add(1, 'month');
             } else {
-                newDate = currentDate.clone().subtract(1, 'month');
+                newDate = displayedDate.clone().subtract(1, 'month');
             }
         }
 
         if (newDate) {
-            setCurrentDate(newDate);
+            setDisplayedDate(newDate);
         }
     }
     
     // Show the weekends or not
-    const [ includeWeekends, setIncludeWeekends ] = useState(IncludeWeekendsEnum.YES.toString());
-    const includeWeekendsAsBoolean = includeWeekends === IncludeWeekendsEnum.YES ? true : false;
-    const handleWeekendChange = ({ target }: ChangeEvent<HTMLSelectElement>) => {
+    const [ includeWeekends, setIncludeWeekends ] = useState(true);
+    const handleWeekendChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
         // Parse from the string value to the enum value
-        setIncludeWeekends(target.value);
+        setIncludeWeekends(target.checked);
     }
 
     return (
         <Form>
-            <Form.Group controlId="exampleForm.SelectCustomSizeSm">
-                <Form.Label>Show weekends?</Form.Label>
-                <Form.Control as="select" size="sm" custom value={ includeWeekends } onChange={ handleWeekendChange }>
-                    <option>{ IncludeWeekendsEnum.YES }</option>
-                    <option>{ IncludeWeekendsEnum.NO }</option>
-                </Form.Control>
-            </Form.Group>
+            <Form.Check 
+                type="switch"
+                id="show-weekends"
+                label="Show weekends"
+                checked={ includeWeekends }
+                onChange={ handleWeekendChange }
+            />
+            <Button onClick={ () => handleSelectedDateChange(TimeService.today) }>Today</Button>
 
-            <MonthView date={ currentDate } includeWeekends={ includeWeekendsAsBoolean } onChangeDate={ handleDateChange } />
+            <MonthView
+                date={ displayedDate }
+                selectedDate={ selectedDate }
+                includeWeekends={ includeWeekends }
+                onChangeSelectedDate={ handleSelectedDateChange }
+                onChangeDisplayDate={ handleDisplayDateChange } />
 
-            {/* Show events */}
+            <hr className='divider' />
+
+            <EventContainer date={ selectedDate } />
         </Form>
     );
 }

@@ -2,9 +2,9 @@ import { Dayjs } from 'dayjs';
 import * as PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-
-import { DayjsPropType } from '../../prop-types/DayjsPropType';
 import Button from 'react-bootstrap/Button';
+
+import { DayjsPropType } from '../../../prop-types/DayjsPropType';
 
 // import './Day.css';
 

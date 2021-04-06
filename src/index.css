@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+hr.divider {
+    border-top: 1px solid white;
+    width: 90%;
+}

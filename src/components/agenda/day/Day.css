@@ -1,0 +1,16 @@
+.day span {
+    cursor: pointer;
+}
+
+.day.selected {
+    background-color: #F80;
+    border: 0px solid #FFF;
+    border-radius: 20px;
+    /* box-shadow: 0 0 2px #888; */
+    height: 40px;
+    width: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    /* padding-right: 2px; */
+    /* line-height: normal; */
+}

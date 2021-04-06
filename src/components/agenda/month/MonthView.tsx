@@ -1,16 +1,18 @@
 import { Dayjs } from 'dayjs';
 import * as PropTypes from 'prop-types';
 
-import './MonthView.css';
+import { DayjsPropType } from '../../../prop-types/DayjsPropType';
+import { Day } from '../day/Day';
 
-import { Day } from './Day';
 import { WeekHeader } from './WeekHeader';
-import { DayjsPropType } from '../../prop-types/DayjsPropType';
 import { AgendaDisplayType, MonthSelector } from './MonthSelector';
+import './MonthView.css';
 
 type MonthViewProps = {
     date: Dayjs,
-    onChangeDate: (isNext: boolean, type: AgendaDisplayType) => void,
+    selectedDate: Dayjs,
+    onChangeSelectedDate: (newDate: Dayjs) => void,
+    onChangeDisplayDate: (isNext: boolean, type: AgendaDisplayType) => void,
     includeWeekends?: boolean,
 };
 
@@ -74,7 +76,7 @@ export function MonthView(props: MonthViewProps) {
     
     return (
         <div className='month-display-container container-fluid'>
-            <MonthSelector date={ today } onChangeDate={ props.onChangeDate } />
+            <MonthSelector date={ today } onChangeDate={ props.onChangeDisplayDate } />
 
             <WeekHeader date={ today } includeWeekends={ props.includeWeekends } />
 
@@ -84,7 +86,7 @@ export function MonthView(props: MonthViewProps) {
                     .map((date: Dayjs) => {
                         return (
                             <div key={date.format()} className='day-container'>
-                                <Day date={ date } />
+                                <Day date={ date } selectedDate={ props.selectedDate } onClickDate={ props.onChangeSelectedDate } />
                             </div>
                         )
                 })}
@@ -95,6 +97,8 @@ export function MonthView(props: MonthViewProps) {
 
 MonthView.propTypes = {
     date: DayjsPropType,
-    onChangeDate: PropTypes.func.isRequired,
+    selectedDate: DayjsPropType,
+    onChangeSelectedDate: PropTypes.func.isRequired,
+    onChangeDisplayDate: PropTypes.func.isRequired,
     includeWeekends: PropTypes.bool,
 };

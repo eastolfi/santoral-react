@@ -1,6 +1,7 @@
 import { Dayjs } from 'dayjs';
 import * as PropTypes from 'prop-types'
-import { DayjsPropType } from '../../prop-types/DayjsPropType';
+
+import { DayjsPropType } from '../../../prop-types/DayjsPropType';
 
 import './WeekHeader.css';
 
