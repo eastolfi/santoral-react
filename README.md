@@ -2,6 +2,21 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Setup
+
+### Environment variables
+
+Create a .env file at the project's root.
+
+Add the following properties:
+```
+# Port of the API server
+API_PORT=3000
+# Connection URI for the database
+MONGO_URI=<URI>
+```
+
+
 ## Available Scripts
 
 In the project directory, you can run:
