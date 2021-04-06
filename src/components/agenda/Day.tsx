@@ -1,15 +1,22 @@
-import * as PropTypes from 'prop-types'
+import dayjs, { Dayjs } from 'dayjs';
+import { DayjsPropType } from '../../prop-types/DayjsPropType';
+
+import './Day.css';
 
 type DayProps = {
-    date: number
+    date: Dayjs
 };
 
-export const Day = (props: DayProps) => {
+export function Day(props: DayProps) {
+    const isToday = props.date.isSame(dayjs(), 'day');
+
     return (
-        <div>{ props.date }</div>
+        <div className={ `day ${isToday ? 'today' : ''}` }>
+            <span>{ props.date.date() }</span>
+        </div>
     )
 }
 
 Day.propTypes = {
-    date: PropTypes.number.isRequired
+    date: DayjsPropType
 };

@@ -1,0 +1,7 @@
+.month-display-container .day-list-container.with-weekends .day-container {
+    flex-basis: 14%;
+}
+
+.month-display-container .day-list-container.without-weekends .day-container {
+    flex-basis: 20%;
+}

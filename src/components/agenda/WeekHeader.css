@@ -1,0 +1,7 @@
+.week-header.with-weekends .day {
+    flex-basis: 14%;
+}
+
+.week-header.without-weekends .day {
+    flex-basis: 20%;
+}

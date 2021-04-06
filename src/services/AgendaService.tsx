@@ -1,11 +1,7 @@
-import dayjs, { Dayjs } from 'dayjs'
+import { Dayjs } from 'dayjs'
 
 export class AgendaService {
-    public static get today(): Dayjs {
-        return dayjs();
-    }
-
-    public static getMonth(): Dayjs {
-        return AgendaService.today.endOf('month');
+    public static getEvents(date: Dayjs): string[] {
+        return [date.format('[event for: ]DD/MM/YYYY')];
     }
 }

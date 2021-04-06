@@ -1,0 +1,12 @@
+.day.today {
+    background-color: #F80;
+    border: 3px solid #FFF;
+    border-radius: 23px;
+    /* box-shadow: 0 0 2px #888; */
+    height: 46px;
+    width: 46px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 2px;
+    line-height: normal;
+}
