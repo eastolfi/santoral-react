@@ -3,29 +3,24 @@ const express = require('express');
 const cors = require('cors');
 const { json, urlencoded } = require('body-parser');
 
+const { MongoDatabase } = require('./helpers/database');
+
+// Initialize environment properties
 require('custom-env').env();
 
+// Create the express application
 const app = express();
 
-// const corsOptions = {
-//     origin: 'http://localhost:3001'
-//     // https://santoral-api.herokuapp.com/
-// };
-app.use(cors(/*corsOptions*/));
-
-// parse requests of content-type - application/json
+// Enable Cross Origin
+app.use(cors());
+// Parse requests of content-type - application/json
 app.use(json());
-
-// parse requests of content-type - application/x-www-form-urlencoded
+// Parse requests of content-type - application/x-www-form-urlencoded
 app.use(urlencoded({ extended: true }));
 
-app.get('/events', (req, res) => {
-    res.send([ { title: 'Cumple 1', content: 'Cumpleaños', date: '2021-04-06' } ]);
-});
+MongoDatabase.init();
 
-app.get('/', (req, res) => {
-    res.send('API Endpoint available')
-});
+app.use(require('./routes'));
 
 // If there is an specific port for the API, use it.
 // Otherwise use the global one, and in last instance, the default one.
@@ -34,3 +29,25 @@ const server = http.createServer(app);
 server.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
+
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);
+
+/**
+ * Gracefully shutdown the server, closing all existing connections
+ */
+async function shutdown() {
+    console.log('Received kill signal, shutting down gracefully');
+
+    setTimeout(() => {
+        console.error('Could not close connections in time, forcefully shutting down');
+        process.exit(1);
+    }, 10000);
+
+    await MongoDatabase.close();
+
+    server.close(() => {
+        console.log('Closed out remaining connections');
+        process.exit(0);
+    });
+}

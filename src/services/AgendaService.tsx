@@ -5,12 +5,14 @@ import { filter, map, mergeMap, toArray } from 'rxjs/operators';
 
 import { createEvent, CalendarEvent } from '../models/event';
 
+import { TimeService } from './TimeService';
+
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 export class AgendaService {
     public static getEvents(date: Dayjs): Observable<CalendarEvent[]> {
         return ajax({
-            url: `${API_ENDPOINT}/events`,
+            url: `${API_ENDPOINT}/events/search/${TimeService.fromDayjs(date)}`,
             method: 'GET',
             crossDomain: true
         }).pipe(
