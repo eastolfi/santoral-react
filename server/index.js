@@ -1,3 +1,4 @@
+const http = require('http');
 const express = require('express');
 const cors = require('cors');
 const { json, urlencoded } = require('body-parser');
@@ -29,6 +30,7 @@ app.get('/', (req, res) => {
 // If there is an specific port for the API, use it.
 // Otherwise use the global one, and in last instance, the default one.
 const port = process.env.API_PORT || process.env.PORT || 3001;
-app.listen(port, () => {
+const server = http.createServer(app);
+server.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });

@@ -80,7 +80,7 @@ export function MonthView(props: MonthViewProps) {
 
             <WeekHeader date={ today } includeWeekends={ props.includeWeekends } />
 
-            <div className={`row day-list-container ${props.includeWeekends ? 'with-weekends' : 'without-weekends'}`}>
+            <div className={`row day-list-container text-center ${props.includeWeekends ? 'with-weekends' : 'without-weekends'}`}>
                 {dates
                     .filter(date => props.includeWeekends || [0, 6].indexOf(date.day()) === -1)
                     .map((date: Dayjs) => {
