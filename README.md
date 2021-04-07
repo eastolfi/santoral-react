@@ -2,20 +2,22 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Setup
+## Available Environment variables
 
-### Environment variables
 
-Create a .env file at the project's root.
+The following properties are available:
 
-Add the following properties:
-```
-# Port of the API server
-API_PORT=3000
-# Connection URI for the database
-MONGO_URI=<URI>
-```
 
+|         Property       |  Type  | Required | Default |             Description             |
+|------------------------|--------|----------|---------|-------------------------------------|
+| MONGO_URI              | String |   Yes    | ------- | Connection URI for the database     |
+| REACT_APP_API_ENDPOINT | String |   Yes    | ------- | URL Endpoint of the API application |
+| PORT                   | Number |   No     |  3000   | Port of the React application       |
+| API_PORT               | Number |   No     |  3001   | Port of the API server              |
+
+## Setup local environment
+
+Create a .env file at the project's root. This should contain, at least, the required properties.
 
 ## Available Scripts
 

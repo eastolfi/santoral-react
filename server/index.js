@@ -26,7 +26,9 @@ app.get('/', (req, res) => {
     res.send('API Endpoint available')
 });
 
-const port = process.env.API_PORT || 3000;
+// If there is an specific port for the API, use it.
+// Otherwise use the global one, and in last instance, the default one.
+const port = process.env.API_PORT || process.env.PORT || 3001;
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
