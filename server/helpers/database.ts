@@ -1,20 +1,22 @@
-const { MongoClient } = require('mongodb');
+import { MongoClient, Db } from 'mongodb';
 
 const token = Symbol('mongo-database');
 
-let client = null;
-let instance = null;
+let client: MongoClient = null;
+let instance: MongoDatabase = null;
 
-class MongoDatabase {
+export class MongoDatabase {
+    private db: Db;
+
     constructor(_token) {
         if (_token !== token) {
             throw new Error('MongoDatabase class is a singleton. Please use MongoDatabase.instance instead.');
         }
 
-        this.db /* MongoDB.Db */ = client.db();
+        this.db = client.db();
     }
 
-    static get instance() /* MongoDatabase */ {
+    static get instance(): MongoDatabase {
         if (instance === null) {
             instance = new MongoDatabase(token);
         }
@@ -22,14 +24,14 @@ class MongoDatabase {
         return instance;
     }
 
-    static get db() /* MongoDB.Db */ {
+    static get db(): Db {
         return this.instance.db;
     }
 
     /**
      * Initialize the mongodb client and stablish a connection
      */
-    static async init() /* Promise<void> */ {
+    static async init(): Promise<void> {
         client = new MongoClient(process.env.MONGO_URI, { useUnifiedTopology: true });
 
         try {
@@ -47,13 +49,9 @@ class MongoDatabase {
      * 
      * @returns Promise<void>
      */
-    static close() /* Promise<void> */ {
+    static close(): Promise<void> {
         console.log('Disconnecting from database...');
 
         return client.close();
     }
 }
-
-module.exports = {
-    MongoDatabase
-};

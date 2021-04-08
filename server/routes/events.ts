@@ -1,16 +1,17 @@
-const { Router } = require('express');
+import { Router } from 'express';
+import { AgendaEventDto, createAgendaEventDto } from '../models/agenda-event';
 
-const { EventService } = require('../services/event.service');
+import { EventService } from '../services/event.service';
 
 const eventService = new EventService();
 
-const router = new Router();
+const router = Router();
 
 router.get('/search/:date', (req, res) => {
     const { date } = req.params;
 
     eventService.findEventsForDate(date)
-    .then((events /* Events[] */) => {
+    .then((events: AgendaEventDto[]) => {
         res.send(events);
     })
     .catch(error => {
@@ -20,7 +21,11 @@ router.get('/search/:date', (req, res) => {
 });
 
 router.get('/add', (req, res) => {
-    eventService.addEvent()
+    eventService.addEvent(createAgendaEventDto({
+        title: 'From Service 2',
+        content: 'Test',
+        date: '2021-04-08'
+    }))
     .then((eventId /* string */) => {
         res.send({ id: eventId })
     })
@@ -30,5 +35,4 @@ router.get('/add', (req, res) => {
     });
 })
 
-module.exports = router;
-
+export default router;
