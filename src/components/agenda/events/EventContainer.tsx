@@ -3,14 +3,14 @@ import { useEffect, useState } from 'react';
 
 import { DayjsPropType } from '../../../prop-types/DayjsPropType';
 import { AgendaService } from '../../../services/AgendaService';
-import { CalendarEvent } from '../../../models/event';
+import { AgendaEvent } from '../../../models/event';
 
 type EventContainerProps = {
     date: Dayjs
 };
 
 export function EventContainer(props: EventContainerProps) {
-    const [ events, setEvents ] = useState(null as CalendarEvent[]);
+    const [ events, setEvents ] = useState(null as AgendaEvent[]);
 
     useEffect(() => {
         AgendaService.getEvents(props.date).subscribe(setEvents);
@@ -22,7 +22,7 @@ export function EventContainer(props: EventContainerProps) {
 
     return (
         <div>
-            {events.map((event: CalendarEvent, i: number) => {
+            {events.map((event: AgendaEvent, i: number) => {
                 return <div key={`event_${i}`}>{ event.title }</div>
             })}
         </div>

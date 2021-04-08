@@ -3,14 +3,13 @@ import { Observable } from 'rxjs';
 import { ajax, AjaxResponse } from 'rxjs/ajax';
 import { filter, map, mergeMap, toArray } from 'rxjs/operators';
 
-import { createEvent, CalendarEvent } from '../models/event';
-
 import { TimeService } from './TimeService';
+import { createEvent, AgendaEvent } from '../models/event';
 
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 export class AgendaService {
-    public static getEvents(date: Dayjs): Observable<CalendarEvent[]> {
+    public static getEvents(date: Dayjs): Observable<AgendaEvent[]> {
         return ajax({
             url: `${API_ENDPOINT}/events/search/${TimeService.fromDayjs(date)}`,
             method: 'GET',
@@ -19,7 +18,7 @@ export class AgendaService {
             map((data: AjaxResponse) => data.response),
             mergeMap((items: any[]) => items),
             map(createEvent),
-            filter((event: CalendarEvent) => event.date.isSame(date, 'day')),
+            filter((event: AgendaEvent) => event.date.isSame(date, 'day')),
             toArray()
         );
     }

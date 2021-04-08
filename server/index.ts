@@ -1,12 +1,14 @@
-const http = require('http');
-const express = require('express');
-const cors = require('cors');
-const { json, urlencoded } = require('body-parser');
+import http from 'http';
+import express from 'express';
+import cors from 'cors';
+import customEnv from 'custom-env';
+import { json, urlencoded } from 'body-parser';
 
-const { MongoDatabase } = require('./helpers/database');
+import { MongoDatabase } from './helpers/database';
+import routes from './routes';
 
 // Initialize environment properties
-require('custom-env').env();
+customEnv.env();
 
 // Create the express application
 const app = express();
@@ -18,9 +20,11 @@ app.use(json());
 // Parse requests of content-type - application/x-www-form-urlencoded
 app.use(urlencoded({ extended: true }));
 
+// Initialize database
 MongoDatabase.init();
 
-app.use(require('./routes'));
+// Include API routes
+app.use(routes);
 
 // If there is an specific port for the API, use it.
 // Otherwise use the global one, and in last instance, the default one.
