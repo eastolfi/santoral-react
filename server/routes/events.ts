@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { AgendaEventDto, createAgendaEventDto } from '../models/agenda-event';
+import { AgendaEventDto, createAgendaEventDto } from '../shared/models/agenda-event';
 
 import { EventService } from '../services/event.service';
 

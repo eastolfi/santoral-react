@@ -1,4 +1,4 @@
-import { TimeService } from '../../shared/services/time.service';
+import { TimeService } from '../services/time.service';
 
 export interface AgendaEventDto {
     _id: string;

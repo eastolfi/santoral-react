@@ -12,10 +12,12 @@
             "runtimeArgs": ["--nolazy", "-r", "ts-node/register/transpile-only", "-r", "tsconfig-paths/register"],
             "args": ["server/index.ts"],
             "cwd": "${workspaceRoot}",
+            "protocol": "inspector",
             "internalConsoleOptions": "openOnSessionStart",
             "skipFiles": ["<node_internals>/**", "node_modules/**"],
             "env": {
-                "TS_NODE_PROJECT": "tsconfig.server.json"
+                "TS_NODE_PROJECT": "server/tsconfig.json",
+                "LOAD_MAP": "true",
             }
         }
     ]
