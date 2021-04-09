@@ -6,6 +6,7 @@ import {
 import Container from 'react-bootstrap/Container';
 
 import { AgendaPage } from './pages/agenda/AgendaPage';
+import { EventAdminPage } from './pages/admininstration/events/EventAdminPage';
 
 import './App.css';
 import { Navigation } from './components/navigation/Nagivation';
@@ -22,6 +23,9 @@ function App() {
                     <Switch>
                         <Route exact path="/">
                             <AgendaPage />
+                        </Route>
+                        <Route exact path="/admin/events">
+                            <EventAdminPage />
                         </Route>
                     </Switch>
                 </Container>
