@@ -1,8 +1,8 @@
 import { Collection, InsertOneWriteOpResult } from 'mongodb';
-import { TimeService } from '../../shared/services/time.service';
 
-import { MongoDatabase } from '../helpers/database';
-import { AgendaEventDto } from '../models/agenda-event';
+import { TimeService } from '../shared/services/time.service';
+import { MongoDatabase } from '../shared/helpers/database';
+import { AgendaEventDto } from '../shared/models/agenda-event';
 
 class DBService {
     private collectionName: string;

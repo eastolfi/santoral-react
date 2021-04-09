@@ -1,14 +1,13 @@
 import http from 'http';
 import express from 'express';
 import cors from 'cors';
-import customEnv from 'custom-env';
 import { json, urlencoded } from 'body-parser';
 
-import { MongoDatabase } from './helpers/database';
+import { MongoDatabase } from './shared/helpers/database';
 import routes from './routes';
 
 // Initialize environment properties
-customEnv.env();
+require('custom-env').env();
 
 // Create the express application
 const app = express();

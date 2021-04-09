@@ -6,16 +6,15 @@
         "noImplicitAny": true,
         "moduleResolution": "node",
         "sourceMap": true,
-        "outDir": "dist",
+        "outDir": "../dist-server",
         "baseUrl": ".",
         "paths": {
             "*": [
-                "node_modules/*"
+                "../node_modules/*"
             ]
         }
     },
     "include": [
-        "shared/**/*",
-        "server/**/*"
+        "./**/*",
     ]
 }

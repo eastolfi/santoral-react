@@ -8,7 +8,7 @@ let instance: MongoDatabase = null;
 export class MongoDatabase {
     private db: Db;
 
-    constructor(_token) {
+    constructor(_token: Symbol) {
         if (_token !== token) {
             throw new Error('MongoDatabase class is a singleton. Please use MongoDatabase.instance instead.');
         }
