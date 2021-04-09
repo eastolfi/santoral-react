@@ -7,6 +7,17 @@ const eventService = new EventService();
 
 const router = Router();
 
+router.get('/search/all', (req, res) => {
+    eventService.findAllEvents()
+    .then((events: AgendaEventDto[]) => {
+        res.send(events);
+    })
+    .catch(error => {
+        console.error(error);
+        res.status(500).send(error.message);
+    });
+});
+
 router.get('/search/:date', (req, res) => {
     const { date } = req.params;
 
@@ -20,13 +31,12 @@ router.get('/search/:date', (req, res) => {
     });
 });
 
-router.get('/add', (req, res) => {
-    eventService.addEvent(createAgendaEventDto({
-        title: 'From Service 2',
-        content: 'Test',
-        date: '2021-04-08'
-    }))
-    .then((eventId /* string */) => {
+router.post('/add', (req, res) => {
+    const { event } = req.body;
+    console.log(event.title)
+
+    eventService.addEvent(createAgendaEventDto(event))
+    .then((eventId: string) => {
         res.send({ id: eventId })
     })
     .catch(error => {

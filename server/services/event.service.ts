@@ -22,6 +22,15 @@ export class EventService extends DBService {
     }
 
     /**
+     * Search all events
+     * 
+     * @returns {Promise<AgendaEventDto>} The list of events
+     */
+    findAllEvents(): Promise<AgendaEventDto[]> {
+        return this.collection.find().toArray();
+    }
+
+    /**
      * Search events for the given date
      * 
      * @param {string} date The date in format YYYY-MM-DD

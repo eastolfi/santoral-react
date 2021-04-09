@@ -11,6 +11,9 @@ export function Navigation() {
                 <Nav className="mr-auto">
                     <Link to="/">Home</Link>
                 </Nav>
+                <Nav className="mr-auto">
+                    <Link to="/admin/events">Events</Link>
+                </Nav>
             </Navbar.Collapse>
         </Navbar>
     );

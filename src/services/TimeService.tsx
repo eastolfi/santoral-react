@@ -7,6 +7,10 @@ export class TimeService {
         return dayjs();
     }
 
+    public static get todayStr(): string {
+        return TimeService.fromDayjs(dayjs());
+    }
+
     public static toDayjs(date: string): Dayjs {
         return dayjs(date, DATE_FORMAT);
     }

@@ -13,7 +13,7 @@ export function EventContainer(props: EventContainerProps) {
     const [ events, setEvents ] = useState(null as AgendaEvent[]);
 
     useEffect(() => {
-        AgendaService.getEvents(props.date).subscribe(setEvents);
+        AgendaService.getEventsForDate(props.date).subscribe(setEvents);
     }, [props.date]);
 
     if (!events?.length) {
