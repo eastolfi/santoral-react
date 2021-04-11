@@ -33,7 +33,6 @@ router.get('/search/:date', (req, res) => {
 
 router.post('/add', (req, res) => {
     const { event } = req.body;
-    console.log(event.title)
 
     eventService.addEvent(createAgendaEventDto(event))
     .then((eventId: string) => {
@@ -43,6 +42,36 @@ router.post('/add', (req, res) => {
         console.error(error);
         res.status(500).send(error.message);
     });
-})
+});
+
+router.put('/update/:eventId', (req, res) => {
+    const { eventId } = req.params;
+    const { event } = req.body;
+
+    eventService.updateEvent({
+        _id: eventId,
+        ...createAgendaEventDto(event)
+    })
+    .then((updated: boolean) => {
+        res.send({ updated })
+    })
+    .catch(error => {
+        console.error(error);
+        res.status(500).send(error.message);
+    });
+});
+
+router.delete('/remove/:eventId', (req, res) => {
+    const { eventId } = req.params;
+
+    eventService.deleteEvent(eventId)
+    .then((deleted: boolean) => {
+        res.send({ deleted })
+    })
+    .catch(error => {
+        console.error(error);
+        res.status(500).send(error.message);
+    });
+});
 
 export default router;

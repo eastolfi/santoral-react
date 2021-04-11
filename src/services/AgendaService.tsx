@@ -1,47 +1,70 @@
 import { Dayjs } from 'dayjs'
 import { Observable } from 'rxjs';
-import { ajax, AjaxResponse } from 'rxjs/ajax';
+import { AjaxResponse } from 'rxjs/ajax';
 import { filter, map, mergeMap, toArray } from 'rxjs/operators';
 
 import { TimeService } from './TimeService';
-import { createEvent, AgendaEvent } from '../models/event';
+import { mapToEvent, AgendaEvent } from '../models/event';
+import { HttpService } from './HttpService';
 
-const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
+const _token = Symbol('AgendaService');
+let instance: AgendaService = null;
+export class AgendaService extends HttpService {
+    constructor(token: Symbol) {
+        if (token !== _token) {
+            throw new Error('Bad use of singleton, please use the instance.');
+        }
 
-export class AgendaService {
-    public static getEvents(): Observable<AgendaEvent[]> {
-        return ajax({
-            url: `${API_ENDPOINT}/events/search/all`,
-            method: 'GET',
-            crossDomain: true
-        }).pipe(
-            map((data: AjaxResponse) => data.response),
-            mergeMap((items: any[]) => items),
-            map(createEvent),
-            toArray()
-        );
+        super(`${process.env.REACT_APP_API_ENDPOINT}/events`);
     }
 
-    public static getEventsForDate(date: Dayjs): Observable<AgendaEvent[]> {
-        return ajax({
-            url: `${API_ENDPOINT}/events/search/${TimeService.fromDayjs(date)}`,
-            method: 'GET',
-            crossDomain: true
-        }).pipe(
-            map((data: AjaxResponse) => data.response),
-            mergeMap((items: any[]) => items),
-            map(createEvent),
-            filter((event: AgendaEvent) => event.date.isSame(date, 'day')),
-            toArray()
-        );
+    public static get instance(): AgendaService {
+        if (instance === null) {
+            instance = new AgendaService(_token);
+        }
+
+        return instance;
     }
-        
-    public static createEvent(event: AgendaEvent): Observable<void> {
-        return ajax({
-            url: `${API_ENDPOINT}/events/add`,
-            method: 'POST',
-            body: { event },
-            crossDomain: true
-        }).pipe(map((data: AjaxResponse) => { return }));
+
+    public getEvents(): Observable<AgendaEvent[]> {
+        return this.get(`search/all`)
+            .pipe(
+                map((data: AjaxResponse) => data.response),
+                mergeMap((items: any[]) => items),
+                map(mapToEvent),
+                toArray()
+            );
+    }
+
+    public getEventsForDate(date: Dayjs): Observable<AgendaEvent[]> {
+        return this.get(`search/${TimeService.fromDayjs(date)}`)
+            .pipe(
+                map((data: AjaxResponse) => data.response),
+                mergeMap((items: any[]) => items),
+                map(mapToEvent),
+                filter((event: AgendaEvent) => event.date.isSame(date, 'day')),
+                toArray()
+            );
+    }
+
+    public createEvent(event: AgendaEvent): Observable<string> {
+        return this.post(`add`, { event })
+            .pipe(
+                map((data: AjaxResponse) => data.response.id as string)
+            );
+    }
+
+    public updateEvent(event: AgendaEvent): Observable<boolean> {
+        return this.put(`update/${event._id}`, { event })
+            .pipe(
+                map((data: AjaxResponse) => data.response.updated as boolean)
+            );
+    }
+
+    public deleteEvent(eventId: string): Observable<boolean> {
+        return this.delete(`remove/${eventId}`)
+            .pipe(
+                map((data: AjaxResponse) => data.response.deleted as boolean)
+            );
     }
 }
