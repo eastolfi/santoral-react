@@ -1,22 +1,11 @@
-import { Collection, InsertOneWriteOpResult } from 'mongodb';
+import { DeleteWriteOpResultObject, FindAndModifyWriteOpResultObject, InsertOneWriteOpResult, ObjectID } from 'mongodb';
 
 import { TimeService } from '../shared/services/time.service';
-import { MongoDatabase } from '../shared/helpers/database';
 import { AgendaEventDto } from '../shared/models/agenda-event';
 
-class DBService {
-    private collectionName: string;
+import { DatabaseService } from './db.service';
 
-    constructor(collectionName: string) {
-        this.collectionName = collectionName;
-    }
-
-    get collection(): Collection {
-        return MongoDatabase.db.collection(this.collectionName);
-    }
-}
-
-export class EventService extends DBService {
+export class EventService extends DatabaseService {
     constructor() {
         super('events');
     }
@@ -26,7 +15,7 @@ export class EventService extends DBService {
      * 
      * @returns {Promise<AgendaEventDto>} The list of events
      */
-    findAllEvents(): Promise<AgendaEventDto[]> {
+    public findAllEvents(): Promise<AgendaEventDto[]> {
         return this.collection.find().toArray();
     }
 
@@ -37,7 +26,7 @@ export class EventService extends DBService {
      * 
      * @returns {Promise<AgendaEventDto>} The list of events
      */
-    findEventsForDate(date: string): Promise<AgendaEventDto[]> {
+    public findEventsForDate(date: string): Promise<AgendaEventDto[]> {
         return this.collection.find({
             date: { "$eq": TimeService.toDbDate(date) }
         }).toArray();
@@ -50,11 +39,42 @@ export class EventService extends DBService {
      * 
      * @returns {Promise<string>} The ID of the created event
      */
-    addEvent(event: Omit<AgendaEventDto, '_id'>): Promise<string> {
-        return this.collection.insertOne({
-            title: 'From Service 2',
-            content: 'Test',
-            date: TimeService.toDbDate('2021-04-08')
-        }).then((result: InsertOneWriteOpResult<AgendaEventDto>) => result.insertedId);
+    public addEvent(event: Omit<AgendaEventDto, '_id'>): Promise<string> {
+        return this.collection.insertOne(event)
+            .then((result: InsertOneWriteOpResult<AgendaEventDto>) => result.insertedId);
+    }
+
+    /**
+     * Update an event
+     * 
+     * @param {Event} event The event to update
+     * 
+     * @returns {Promise<boolean>} Whether it update ok or not
+     */
+    public updateEvent(event: AgendaEventDto): Promise<boolean> {
+        return this.collection.findOneAndUpdate({
+            _id: new ObjectID(event._id)
+        }, {
+            $set: {
+                title: event.title,
+                content: event.content,
+                date: event.date,
+            }
+        })
+            .then((result: FindAndModifyWriteOpResultObject<AgendaEventDto>) => result.ok === 1);
+    }
+
+    /**
+     * Delete an event
+     * 
+     * @param {string} eventId The event id to delete
+     * 
+     * @returns {Promise<boolean>} Whether it update ok or not
+     */
+    public deleteEvent(eventId: string): Promise<boolean> {
+        return this.collection.deleteOne({ _id: new ObjectID(eventId) })
+            .then((result: DeleteWriteOpResultObject) => {
+                return result.result.ok === 1 && result.deletedCount === 1
+            });
     }
 }
