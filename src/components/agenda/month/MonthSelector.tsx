@@ -1,12 +1,12 @@
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Typography from '@material-ui/core/Typography';
 import { Dayjs } from 'dayjs';
 import * as PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import Button from 'react-bootstrap/Button';
 
 import { DayjsPropType } from '../../../prop-types/DayjsPropType';
-
-// import './Day.css';
 
 export enum AgendaDisplayType {
     YEAR, MONTH, WEEK, DAY
@@ -19,17 +19,17 @@ type MonthSelectorProps = {
 
 export function MonthSelector(props: MonthSelectorProps) {
     return (
-        <div className="row justify-content-around">
-            <Button variant="link" size="sm" onClick={ () => props.onChangeDate(false, AgendaDisplayType.MONTH) }>
-                <FontAwesomeIcon icon={ faChevronLeft } />
-            </Button>
+        <Grid container justify="space-around">
+            <IconButton aria-label="previous" onClick={ () => props.onChangeDate(false, AgendaDisplayType.MONTH) }>
+                <ChevronLeftIcon />
+            </IconButton>
 
-            <h3>{ props.date.format('MMMM') }</h3>
+            <Typography variant="h6">{ props.date.format('MMMM') }</Typography>
 
-            <Button variant="link" size="sm" onClick={ () => props.onChangeDate(true, AgendaDisplayType.MONTH) }>
-                <FontAwesomeIcon icon={ faChevronRight } />
-            </Button>
-        </div>
+            <IconButton aria-label="next" onClick={ () => props.onChangeDate(true, AgendaDisplayType.MONTH) }>
+                <ChevronRightIcon />
+            </IconButton>
+        </Grid>
     )
 }
 

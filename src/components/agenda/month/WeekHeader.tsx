@@ -1,3 +1,5 @@
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import { Dayjs } from 'dayjs';
 import * as PropTypes from 'prop-types'
 
@@ -22,13 +24,17 @@ export function WeekHeader(props: WeekHeaderProps) {
     }
 
     return (
-        <div className={ `row week-header ${props.includeWeekends ? 'with-weekends' : 'without-weekends'}` }>
+        <Grid container justify="center" className={ `week-header ${props.includeWeekends ? 'with-weekends' : 'without-weekends'}` }>
             {dates
                 .filter(date => props.includeWeekends || [0, 6].indexOf(date.day()) === -1)
                 .map((date: Dayjs) => {
-                    return <div key={date.format()} className='day col'>{ date.format('ddd') }</div>
+                    return (
+                        <Grid item key={date.format()} className='weekday'>
+                            <Typography variant="subtitle2">{ date.format('ddd') }</Typography>
+                        </Grid>
+                    )
             })}
-        </div>
+        </Grid>
     )
 }
 

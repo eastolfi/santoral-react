@@ -1,3 +1,5 @@
+import { Fragment } from 'react';
+import Grid from '@material-ui/core/Grid';
 import { Dayjs } from 'dayjs';
 import * as PropTypes from 'prop-types';
 
@@ -6,6 +8,7 @@ import { Day } from '../day/Day';
 
 import { WeekHeader } from './WeekHeader';
 import { AgendaDisplayType, MonthSelector } from './MonthSelector';
+
 import './MonthView.css';
 
 type MonthViewProps = {
@@ -80,17 +83,19 @@ export function MonthView(props: MonthViewProps) {
 
             <WeekHeader date={ today } includeWeekends={ props.includeWeekends } />
 
-            <div className={`row day-list-container text-center ${props.includeWeekends ? 'with-weekends' : 'without-weekends'}`}>
-                {dates
-                    .filter(date => props.includeWeekends || [0, 6].indexOf(date.day()) === -1)
-                    .map((date: Dayjs) => {
-                        return (
-                            <div key={date.format()} className='day-container'>
-                                <Day date={ date } selectedDate={ props.selectedDate } onClickDate={ props.onChangeSelectedDate } />
-                            </div>
-                        )
-                })}
-            </div>
+            <Fragment>
+                <Grid container direction="row" className={`day-list-container text-center ${props.includeWeekends ? 'with-weekends' : 'without-weekends'}`}>
+                    {dates
+                        .filter(date => props.includeWeekends || [0, 6].indexOf(date.day()) === -1)
+                        .map((date: Dayjs) => {
+                            return (
+                                <Grid key={date.format()} item className='day-container'>
+                                    <Day date={ date } selectedDate={ props.selectedDate } onClickDate={ props.onChangeSelectedDate } />
+                                </Grid>
+                            )
+                    })}
+                </Grid>
+            </Fragment>
         </div>
     )
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
+import Button from '@material-ui/core/Button';
 
 
 import { AgendaEvent } from '../../../models/event';
