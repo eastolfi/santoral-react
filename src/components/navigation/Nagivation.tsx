@@ -1,20 +1,35 @@
-import { Link } from 'react-router-dom';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
+import { ChangeEvent, Fragment, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import Container from '@material-ui/core/Container';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import EventTwoToneIcon from '@material-ui/icons/EventTwoTone';
+import SettingsTwoToneIcon from '@material-ui/icons/SettingsTwoTone';
 
-export function Navigation() {
+import './Navigation.css';
+
+interface NavigationProps {
+    children: any;
+}
+export function Navigation(props: NavigationProps) {
+    const history = useHistory();
+
+    const [ selected, setSelected ] = useState('/');
+    const handleNavChange = (_event: ChangeEvent<{}>, value: string): void => {
+        setSelected(value);
+
+        // Navigate to the selected route
+        history.push(value);
+    }
     return (
-        <Navbar bg="dark" variant="dark" fixed="top" expand="lg">
-            <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="mr-auto">
-                    <Link to="/">Home</Link>
-                </Nav>
-                <Nav className="mr-auto">
-                    <Link to="/admin/events">Events</Link>
-                </Nav>
-            </Navbar.Collapse>
-        </Navbar>
+        <Fragment>
+            <Container>
+                { props.children }
+            </Container>
+            <BottomNavigation value={ selected } onChange={ handleNavChange } showLabels className="bottom-navigation">
+                <BottomNavigationAction label="Agenda" value="/" icon={<EventTwoToneIcon />} />
+                <BottomNavigationAction label="Administrate" value="/admin/events" icon={<SettingsTwoToneIcon />} />
+            </BottomNavigation>
+        </Fragment>
     );
 }

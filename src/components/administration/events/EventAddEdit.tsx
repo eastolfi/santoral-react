@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -72,41 +73,44 @@ export function EventAddEdit(props: EventAddEditProps) {
     }
 
     return (
-        <Form inline>
-            <Form.Group controlId="title">
-                <Form.Label srOnly>Title</Form.Label>
-                <Form.Control
-                    value={ title }
-                    onChange={ handleEventTitleChange }
-                    className="mb-2 mr-sm-2"
+        <Box component="form" display="flex">
+            
+            <Box mb={2} mr={2}>
+                <TextField
+                    id="event-title"
+                    label="Title"
                     placeholder="Event title"
-                />
-            </Form.Group>
-            
-            <Form.Group controlId="description">
-                <Form.Label srOnly>Description</Form.Label>
-                <Form.Control
-                    value={ description }
-                    onChange={ handleEventDescriptionChange }
                     className="mb-2 mr-sm-2"
-                    placeholder="Event description"
-                />
-            </Form.Group>
-            
-            <Form.Group controlId="date">
-                <Form.Label srOnly>Date</Form.Label>
-                <Form.Control
-                    value={ date }
-                    onChange={ handleEventDateChange }
-                    className="mb-2 mr-sm-2"
-                    placeholder="Event date"
-                />
-            </Form.Group>
+                    variant="outlined"
+                    value={ title }
+                    onChange={ handleEventTitleChange } />
+            </Box>
 
-            <Button type="button" className="mb-2" onClick={ handleAddEventClick }>
-                { props.isEdition ? 'Save Event' : 'Add Event' }
-            </Button>
-        </Form>
+            <Box mb={2} mr={2}>
+                <TextField
+                    id="event-description"
+                    label="Description"
+                    placeholder="Event description"
+                    variant="outlined"
+                    value={ description }
+                    onChange={ handleEventDescriptionChange } />
+            </Box>
+            <Box mb={2} mr={2}>
+                <TextField
+                    id="event-date"
+                    label="Date"
+                    placeholder="Event date"
+                    variant="outlined"
+                    value={ date }
+                    onChange={ handleEventDateChange } />
+            </Box>
+
+            <Box mb={2}>
+                <Button variant="outlined" color="secondary" onClick={ handleAddEventClick }>
+                    { props.isEdition ? 'Save Event' : 'Add Event' }
+                </Button>
+            </Box>
+        </Box>
     )
 }
 

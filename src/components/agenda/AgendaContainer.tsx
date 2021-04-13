@@ -1,7 +1,9 @@
-import { Dayjs } from 'dayjs';
 import { ChangeEvent, useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import { Dayjs } from 'dayjs';
 
 import { TimeService } from '../../services/TimeService';
 
@@ -43,14 +45,16 @@ export function AgendaContainer() {
     }
 
     return (
-        <Form>
-            <Form.Check 
-                type="switch"
-                id="show-weekends"
+        <form>
+            <FormControlLabel
+                control={<Switch
+                    checked={ includeWeekends }
+                    onChange={ handleWeekendChange }
+                    name="show-weekends"
+                    color="primary" />}
                 label="Show weekends"
-                checked={ includeWeekends }
-                onChange={ handleWeekendChange }
             />
+
             <Button onClick={ () => handleSelectedDateChange(TimeService.today) }>Today</Button>
 
             <MonthView
@@ -60,9 +64,9 @@ export function AgendaContainer() {
                 onChangeSelectedDate={ handleSelectedDateChange }
                 onChangeDisplayDate={ handleDisplayDateChange } />
 
-            <hr className='divider' />
+            <Divider />
 
             <EventContainer date={ selectedDate } />
-        </Form>
+        </form>
     );
 }

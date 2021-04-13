@@ -1,14 +1,6 @@
-.day span {
+.day {
     cursor: pointer;
-    display: inline-block;
     width: 42px;
     height: 42px;
-}
-
-.day.selected span {
-    background-color: #F80;
-    border: 0px solid #FFF;
     border-radius: 20px;
-    margin-left: auto;
-    margin-right: auto;
 }
