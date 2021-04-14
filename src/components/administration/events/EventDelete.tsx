@@ -1,4 +1,7 @@
-import { Button } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
+// import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+// import { orange, red } from '@material-ui/core/colors';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -8,6 +11,13 @@ interface EventDeleteProps {
     eventId: string;
     onEventDeleted: () => void;
 }
+
+// const warningTheme = createMuiTheme({
+//     palette: {
+//         primary: red,
+//         secondary: orange
+//     }
+// });
 
 export function EventDelete(props: EventDeleteProps) {
     const handleDeleteClick = () => {
@@ -24,7 +34,13 @@ export function EventDelete(props: EventDeleteProps) {
         })
     }
     return (
-        <Button onClick={ handleDeleteClick }>Delete</Button>
+        <Box mb={2}>
+            {/* <ThemeProvider theme={ warningTheme }> */}
+                <Button variant="outlined" color="primary" onClick={ handleDeleteClick }>
+                    Delete
+                </Button>
+            {/* </ThemeProvider> */}
+        </Box>
     );
 }
 
