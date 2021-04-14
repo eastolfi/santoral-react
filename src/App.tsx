@@ -6,11 +6,12 @@ import {
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 
+import { Navigation } from './components/navigation/Nagivation';
 import { AgendaPage } from './pages/agenda/AgendaPage';
 import { EventAdminPage } from './pages/admininstration/events/EventAdminPage';
+import { DashboardPage } from './pages/admininstration/DashboardPage';
 
 import './App.css';
-import { Navigation } from './components/navigation/Nagivation';
 
 function App() {
     return (
@@ -21,6 +22,9 @@ function App() {
                         <Switch>
                             <Route exact path="/">
                                 <AgendaPage />
+                            </Route>
+                            <Route exact path="/admin">
+                                <DashboardPage />
                             </Route>
                             <Route exact path="/admin/events">
                                 <EventAdminPage />
