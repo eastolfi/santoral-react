@@ -67,14 +67,31 @@ export class EventService extends DatabaseService {
     /**
      * Delete an event
      * 
-     * @param {string} eventId The event id to delete
+     * @param {string} eventId The event ID to delete
      * 
-     * @returns {Promise<boolean>} Whether it update ok or not
+     * @returns {Promise<boolean>} Whether it deleted it ok or not
      */
     public deleteEvent(eventId: string): Promise<boolean> {
         return this.collection.deleteOne({ _id: new ObjectID(eventId) })
             .then((result: DeleteWriteOpResultObject) => {
-                return result.result.ok === 1 && result.deletedCount === 1
+                return result.result.ok === 1 && result.deletedCount !== 0
+            });
+    }
+
+    /**
+     * Delete several events
+     * 
+     * @param {string} eventsIds The events IDs to delete
+     * 
+     * @returns {Promise<boolean>} Whether it deleted them ok or not
+     */
+    public deleteEvents(eventsIds: string[]): Promise<boolean> {
+        const ids = eventsIds.map((eventId: string) => new ObjectID(eventId));
+        return this.collection.deleteMany({
+            _id: { $in: ids }
+        })
+            .then((result: DeleteWriteOpResultObject) => {
+                return result.result.ok === 1 && result.deletedCount !== 0
             });
     }
 }

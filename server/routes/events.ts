@@ -74,4 +74,17 @@ router.delete('/remove/:eventId', (req, res) => {
     });
 });
 
+router.patch('/remove/bulk', (req, res) => {
+    const { eventsIds } = req.body;
+    
+    eventService.deleteEvents(eventsIds as string[])
+    .then((deleted: boolean) => {
+        res.send({ deleted })
+    })
+    .catch(error => {
+        console.error(error);
+        res.status(500).send(error.message);
+    });
+});
+
 export default router;

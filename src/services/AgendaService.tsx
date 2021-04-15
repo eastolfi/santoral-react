@@ -47,7 +47,7 @@ export class AgendaService extends HttpService {
             );
     }
 
-    public createEvent(event: AgendaEvent): Observable<string> {
+    public createEvent(event: Omit<AgendaEvent, '_id'>): Observable<string> {
         return this.post(`add`, { event })
             .pipe(
                 map((data: AjaxResponse) => data.response.id as string)
@@ -63,6 +63,13 @@ export class AgendaService extends HttpService {
 
     public deleteEvent(eventId: string): Observable<boolean> {
         return this.delete(`remove/${eventId}`)
+            .pipe(
+                map((data: AjaxResponse) => data.response.deleted as boolean)
+            );
+    }
+
+    public deleteEvents(eventsIds: string[]): Observable<boolean> {
+        return this.patch(`remove/bulk`, { eventsIds })
             .pipe(
                 map((data: AjaxResponse) => data.response.deleted as boolean)
             );
