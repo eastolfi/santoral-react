@@ -12,7 +12,7 @@ import { Navigation } from './components/navigation/Nagivation';
 
 function App() {
     return (
-        <div>
+        <div data-testid="app-container">
             <Router>
                 {/* Navigation */}
                 <Navigation />
