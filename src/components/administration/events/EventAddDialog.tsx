@@ -49,7 +49,13 @@ export function ItemAddDialog(props: ItemAddDialogProps) {
     };
 
     return (
-        <Dialog onClose={ handleCloseCancel } aria-labelledby="simple-dialog-title" open={ props.open } maxWidth="sm" fullWidth={true}>
+        <Dialog
+            open={ props.open }
+            aria-labelledby="simple-dialog-title"
+            maxWidth="sm"
+            fullWidth={ true }
+            onClose={ handleCloseCancel }
+        >
             <DialogTitle id="simple-dialog-title">Add new event</DialogTitle>
 
             <Box px={3}>
