@@ -32,6 +32,9 @@
             "last 1 safari version"
         ]
     },
+    "engines": {
+        "node": ">=14 <15"
+    },
     "dependencies": {
         "@date-io/dayjs": "1.x",
         "@fortawesome/fontawesome-svg-core": "^1.2.35",
