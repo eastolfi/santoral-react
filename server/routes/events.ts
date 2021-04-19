@@ -3,6 +3,8 @@ import { AgendaEventDto, createAgendaEventDto } from '../shared/models/agenda-ev
 
 import { EventService } from '../services/event.service';
 
+export const EVENTS_ENDPOINT = '/events';
+
 const eventService = new EventService();
 
 const router = Router();
