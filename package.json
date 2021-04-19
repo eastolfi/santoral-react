@@ -7,9 +7,10 @@
         "start:server": "ts-node --project server/tsconfig.json server/index.ts",
         "start:watch": "nodemon",
         "start:front": "react-scripts start",
-        "build": "react-scripts build",
+        "build": "npm run build:server && npm run build:front",
+        "build:front": "react-scripts build",
         "build:server": "tsc -p server/tsconfig.json",
-        "heroku-postbuild": "npm run build:server",
+        "heroku-postbuild": "node scripts/build-ci.js",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },
