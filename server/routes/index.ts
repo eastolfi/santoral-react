@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import EventRoutes from './events';
+import EventRoutes, { EVENTS_ENDPOINT } from './events';
 
 const router = Router();
 
@@ -8,6 +8,6 @@ router.get('/', (_req, res) => {
     res.send('API Endpoint available')
 });
 
-router.use('/events', EventRoutes);
+router.use(EVENTS_ENDPOINT, EventRoutes);
 
 export default router;
