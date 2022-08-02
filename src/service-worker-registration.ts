@@ -10,12 +10,23 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://cra.link/PWA
 
+type CustomReload = () => void;
+
+declare const self: ServiceWorkerGlobalScope | Window;
+let scopeReload: CustomReload;
+
+if ((self as Window).location.reload) {
+    scopeReload = (self as Window).location.reload;
+} else {
+    scopeReload = () => {};
+}
+
 const isLocalhost = Boolean(
-    window.location.hostname === 'localhost' ||
+    self.location.hostname === 'localhost' ||
     // [::1] is the IPv6 localhost address.
-    window.location.hostname === '[::1]' ||
+    self.location.hostname === '[::1]' ||
     // 127.0.0.0/8 are considered localhost for IPv4.
-    window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/)
+    self.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/)
 );
 
 type Config = {
@@ -26,10 +37,10 @@ type Config = {
 export function registerSW(config?: Config) {
     console.log('Initiating SW registration');
 
-    if (process.env.NODE_ENV !== 'production' && 'serviceWorker' in navigator) {
+    if ('serviceWorker' in navigator) {
         // The URL constructor is available in all browsers that support SW.
-        const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
-        if (publicUrl.origin !== window.location.origin) {
+        const publicUrl = new URL(process.env.PUBLIC_URL, self.location.href);
+        if (publicUrl.origin !== self.location.origin) {
             console.log('SW is on a different origin. Registration stopped');
             // Our service worker won't work if PUBLIC_URL is on a different origin
             // from what our page is served on. This might happen if a CDN is used to
@@ -37,7 +48,7 @@ export function registerSW(config?: Config) {
             return;
         }
 
-        window.addEventListener('load', () => {
+        self.addEventListener('load', () => {
             console.log('Window loaded');
 
             const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
@@ -131,7 +142,7 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
                 // No service worker found. Probably a different app. Reload the page.
                 navigator.serviceWorker.ready.then((registration) => {
                     registration.unregister().then(() => {
-                        window.location.reload();
+                        scopeReload();
                     });
                 });
             } else {
@@ -156,8 +167,4 @@ export function unregisterSW() {
                 console.error(error.message);
             });
     }
-}
-
-export function isPushNotificationSupported() {
-    return 'serviceWorker' in navigator && 'PushManager' in window;
 }
