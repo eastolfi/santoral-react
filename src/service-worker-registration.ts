@@ -159,7 +159,3 @@ export function unregisterSW() {
             });
     }
 }
-
-export function isPushNotificationSupported() {
-    return 'serviceWorker' in navigator && 'PushManager' in window;
-}

@@ -1,6 +1,5 @@
 import { usePushNotifications } from '../../../hooks';
 import { NotificationError } from '../../../hooks/usePushNotifications';
-import { isPushNotificationSupported } from '../../../service-worker-registration';
 
 const Loading = ({ loading }: { loading: boolean }) =>
     loading ? (
@@ -17,7 +16,7 @@ const Error = ({ error }: { error: NotificationError }) =>
         </section>
     ) : null;
 
-const pushNotificationSupported = isPushNotificationSupported();
+const pushNotificationSupported = ('serviceWorker' in navigator && 'PushManager' in window);
 
 export function SettingsAdminContainer() {
     const {
