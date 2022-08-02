@@ -1,5 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
+import './tests/mocks/window'
+
 import App from './App';
 
 // https://www.freecodecamp.org/news/testing-react-hooks/
