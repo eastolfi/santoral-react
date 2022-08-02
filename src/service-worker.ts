@@ -13,6 +13,7 @@ import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate } from 'workbox-strategies';
+import { isPushNotificationSupported } from './service-worker-registration';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -77,4 +78,32 @@ self.addEventListener('message', (event) => {
     }
 });
 
-// Any other custom service worker logic can go here.
+if (isPushNotificationSupported()) {
+    self.addEventListener('push', (event) => {
+        console.log('[Service Worker] Push Received.');
+        const { image, tag, url, title, text } = event.data.json();
+        const options = {
+            data: url,
+            body: text,
+            icon: image,
+            vibrate: [200, 100, 200],
+            tag: tag,
+            image: image,
+            badge: '/favicon.ico',
+            actions: [
+                {
+                    action: 'Detail',
+                    title: 'View',
+                    icon: 'https://via.placeholder.com/128/ff0000',
+                },
+            ],
+        };
+        event.waitUntil(self.registration.showNotification(title, options));
+    });
+    
+    self.addEventListener('notificationclick', (event) => {
+        console.log('Notification click Received.', event.notification.data);
+        event.notification.close();
+        //do something
+    });
+}
