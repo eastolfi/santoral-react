@@ -40,6 +40,7 @@ export class MongoDatabase {
             await client.db().command({ ping: 1 });
             console.log('Connected successfully to the database');
         } catch (error) {
+            console.log('Could not connect to the database')
             console.error(error);
         }
     }
