@@ -1,5 +1,7 @@
 import { createHash } from 'crypto';
-import { sendNotification, setVapidDetails, PushSubscription } from 'web-push';
+// Do not use named imports: https://github.com/web-push-libs/web-push/issues/683
+import * as webPush from 'web-push';
+import { PushSubscription } from 'web-push';
 
 export interface PushNotificationPayload {
     title: string,
@@ -19,7 +21,7 @@ export class PushSubscriptionsService {
             throw new Error('Bad use of singleton, please use the instance.');
         }
 
-        setVapidDetails(
+        webPush.setVapidDetails(
             `mailto:${process.env.VAPID_CONTACT}`,
             process.env.VAPID_PUBLIC_KEY,
             process.env.VAPID_PRIVATE_KEY
@@ -79,7 +81,7 @@ export class PushSubscriptionsService {
 
     private sendPushNotification(subscriptionId: string, payload: PushNotificationPayload): void {
         const userSubscription = this.subscriptions[subscriptionId];
-        sendNotification(
+        webPush.sendNotification(
             userSubscription,
             JSON.stringify(payload)
         )
