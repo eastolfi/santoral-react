@@ -20,7 +20,7 @@ export class CronService {
                     text: events.map(event => event.title).join('\n'),
                     tag: 'Event',
                     image: 'https://santoral-react-git-notifications-eastolfi.vercel.app/favicon.ico',
-                    url: 'https://santoral-react-git-notifications-eastolfi.vercel.app/'
+                    url: events.map(event => event.title).join('\n')
                 })
             });
         })

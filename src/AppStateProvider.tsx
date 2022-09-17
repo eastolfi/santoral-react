@@ -48,14 +48,32 @@ export default function AppStateProvider({ children }: AppStateProviderProps) {
         setError,
     }
 
+    // call server and get subscription
+    // if found, setState
+    // otherwise, create one
+
     // Push Notifications
-    const { pushNotificationLoading, onAskUserPermission, userConsent } = usePushNotifications();
+    const { 
+        pushNotificationLoading,
+        onAskUserPermission,
+        onSusbribeToPushNotification,
+        onSendSubscriptionToPushServer,
+        userConsent,
+        userSubscription,
+        pushServerSubscriptionId,
+    } = usePushNotifications();
 
     if (pushNotificationLoading) {
         console.log('Loading push');
     } else {
         if (userConsent === 'default') {
             onAskUserPermission();
+        } else if (userConsent === 'granted') {
+            if (!userSubscription) {
+                onSusbribeToPushNotification()
+            } else if (!pushServerSubscriptionId) {
+                onSendSubscriptionToPushServer();
+            }
         }
     }
 
