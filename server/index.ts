@@ -1,3 +1,8 @@
+/* eslint-disable import/first */
+
+// Initialize environment properties
+require('custom-env').env();
+
 import http from 'http';
 import express from 'express';
 import cors from 'cors';
@@ -5,9 +10,7 @@ import { json, urlencoded } from 'body-parser';
 
 import { MongoDatabase } from './shared/helpers/database';
 import routes from './routes';
-
-// Initialize environment properties
-require('custom-env').env();
+import { CronService } from './services/cron.service';
 
 // Create the express application
 const app = express();
@@ -21,6 +24,8 @@ app.use(urlencoded({ extended: true }));
 
 // Initialize database
 MongoDatabase.init();
+// Initialize CRON
+CronService.addDailyNotification();
 
 // Include API routes
 app.use(routes);

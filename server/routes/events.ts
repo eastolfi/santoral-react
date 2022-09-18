@@ -9,6 +9,10 @@ const eventService = new EventService();
 
 const router = Router();
 
+router.get('/', (req, res) => {
+    res.send('Events Endpoint');
+});
+
 router.get('/search/all', (req, res) => {
     eventService.findAllEvents()
     .then((events: AgendaEventDto[]) => {

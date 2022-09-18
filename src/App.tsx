@@ -13,6 +13,7 @@ import AppStateProvider from './AppStateProvider';
 import { Navigation } from './components/navigation/Nagivation';
 import { AgendaPage } from './pages/agenda/AgendaPage';
 import { EventAdminPage } from './pages/admininstration/events/EventAdminPage';
+import { SettingsAdminPage } from './pages/admininstration/settings/SettingsAdminPage';
 import { DashboardPage } from './pages/admininstration/DashboardPage';
 
 import './App.css';
@@ -34,6 +35,9 @@ function App() {
                                     </Route>
                                     <Route exact path="/admin/events">
                                         <EventAdminPage />
+                                    </Route>
+                                    <Route exact path="/admin/settings">
+                                        <SettingsAdminPage />
                                     </Route>
                                 </Switch>
                             </Navigation>

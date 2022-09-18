@@ -8,12 +8,17 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 The following properties are available:
 
 
-|         Property       |  Type  | Required | Default |             Description             |
-|------------------------|--------|----------|---------|-------------------------------------|
-| MONGO_URI              | String |   Yes    | ------- | Connection URI for the database     |
-| REACT_APP_API_ENDPOINT | String |   Yes    | ------- | URL Endpoint of the API application |
-| PORT                   | Number |   No     |  3000   | Port of the React application       |
-| API_PORT               | Number |   No     |  3001   | Port of the API server              |
+|            Property         |  Type  | Required | Default |             Description             |
+|-----------------------------|--------|----------|---------|-------------------------------------|
+| MONGO_URI                   | String |   Yes    | --------- | Connection URI for the database     |
+| REACT_APP_API_ENDPOINT      | String |   Yes    | --------- | URL Endpoint of the API application |
+| PORT                        | Number |   No     |   3000    | Port of the React application       |
+| API_PORT                    | Number |   No     |   3001    | Port of the API server              |
+| VAPID_CONTACT               | String |   Yes    | --------- | Contact email for web-push          |
+| VAPID_PRIVATE_KEY           | String |   Yes    | --------- | Private key for web-push            |
+| VAPID_PUBLIC_KEY            | String |   Yes    | --------- | Public key for web-push (Server)    |
+| REACT_APP_VAPID_PUBLIC_KEY  | String |   Yes    | --------- | Public key for web-push (Client)    |
+| DAILY_NOTIFICATION_SCHEDULE | String |   No     | 8 * * * * | CRON config for the daily notif     |
 
 ## Setup local environment
 

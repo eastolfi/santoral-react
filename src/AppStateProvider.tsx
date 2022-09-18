@@ -2,6 +2,8 @@ import { createContext, ReactNode, useEffect, useState } from 'react';
 
 import { ConfirmDialog, ConfirmDialogOptions, defaultConfirmDialogProps } from './components/shared/dialogs/ConfirmDialog';
 
+import { usePushNotifications } from './hooks';
+
 export const AppContext = createContext(null);
 
 interface AppStateProviderProps {
@@ -45,6 +47,37 @@ export default function AppStateProvider({ children }: AppStateProviderProps) {
         setMessage,
         setError,
     }
+
+    // call server and get subscription
+    // if found, setState
+    // otherwise, create one
+
+    // Push Notifications
+    const { 
+        pushNotificationLoading,
+        onAskUserPermission,
+        onSusbribeToPushNotification,
+        onSendSubscriptionToPushServer,
+        userConsent,
+        userSubscription,
+        pushServerSubscriptionId,
+    } = usePushNotifications();
+
+    if (pushNotificationLoading) {
+        console.log('Loading push');
+    } else {
+        if (userConsent === 'default') {
+            onAskUserPermission();
+        } else if (userConsent === 'granted') {
+            if (!userSubscription) {
+                onSusbribeToPushNotification()
+            } else if (!pushServerSubscriptionId) {
+                onSendSubscriptionToPushServer();
+            }
+        }
+    }
+
+    
 
     return (
         <AppContext.Provider value={ { ...funcs } }>
